@@ -1,0 +1,63 @@
+Sub Homework2()
+
+' Set an initial variable for holding the ticker name
+  
+Dim Ticker As String
+  
+' Set an initial variable for holding the total stock volume per ticker, with initial
+' value zero
+  
+Dim Ticker_Total As Double
+Ticker_Total = 0
+ 
+' Keep track of the location for each ticker in the summary table, with the 2nd row
+' as the first one to be analyzed
+  
+Dim Summary_Table_Row As Integer
+Summary_Table_Row = 2
+
+' Loop through all trades
+  
+For i = 2 To 1000000
+
+    ' Check if you are still within the same ticker, meaning if the cell below the one
+    ' just checked still shows the same ticker; if not...
+
+    If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+
+        ' ...assign to Ticker the last value of the range (meaning, the one in row i, as row
+        ' (i+1) will already show a different ticker):
+          
+        Ticker = Cells(i, 1).Value
+        
+        ' Add to the Ticker_Total
+          
+        Ticker_Total = Ticker_Total + Cells(i, 7).Value
+    
+        ' Print the ticker in the Summary Table
+    
+        Range("I" & Summary_Table_Row).Value = Ticker
+    
+        ' Print the ticker total volume in the Summary Table
+          
+        Range("J" & Summary_Table_Row).Value = Ticker_Total
+    
+        ' Add one to the summary table row
+    
+        Summary_Table_Row = Summary_Table_Row + 1
+          
+        ' Reset the ticker total volume, to prepare for the next row
+    
+        Ticker_Total = 0
+    
+    ' If the cell immediately following a row, instead, shows the same ticker, add to that ticker
+    
+    Else
+
+        Ticker_Total = Ticker_Total + Cells(i, 7).Value
+
+    End If
+
+  Next i
+
+End Sub
